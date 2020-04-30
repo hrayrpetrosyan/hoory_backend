@@ -22,10 +22,11 @@ export const signUp = async (req, res) => {
 		});
 		const savedProfile = await profile.save();
 		
-		const { name, color, fileName } = req.body.assistant;
+		const { name, gender, color, fileName } = req.body.assistant;
 		const assistant = new Assistant({
 			profileId: savedProfile._id,
 			name,
+			gender,
 			color,
 			fileName
 		});

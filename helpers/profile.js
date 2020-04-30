@@ -6,7 +6,7 @@ export const validateSignUpBody = ({ firstName, lastName, email, password, assis
 	const isPasswordInvalid = !password || !passwordRegEx.test(password);
 
 	const isProfileInvalid = !firstName || !lastName || isEmailInvalid || isPasswordInvalid;
-	const isAssistantInvalid = !assistant || !assistant.name || !assistant.color || !assistant.fileName;
+	const isAssistantInvalid = !assistant || !assistant.name || !assistant.gender || !assistant.color || !assistant.fileName;
 
 	return isProfileInvalid || isAssistantInvalid;
 };

@@ -8,6 +8,11 @@ const AssistantSchema = new Schema({
 		required: true,
 		unique: false
 	},
+	gender: {
+		type: String,
+		required: true,
+		unique: false,
+	},
 	color: {
 		type: String,
 		required: true,

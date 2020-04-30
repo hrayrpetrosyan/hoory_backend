@@ -2,14 +2,15 @@ import Assistant from '../models/assistant';
 import Profile from '../models/profile';
 
 export const createAssistant = async (req, res) => {
-	const { name, color, fileName, profileId } = req.body;
-	if (!profileId, !name || !color || !fileName) return res.status(400).json({ message: 'Invalid field is provided' });
+	const { name, gender, color, fileName, profileId } = req.body;
+	if (!profileId || !name || !gender || !color || !fileName) return res.status(400).json({ message: 'Invalid field is provided' });
 	try {
 		const profile = await Profile.findById(profileId);
 		if (!profile) return res.status(409).json({ message: 'Profile does not exist' });
 		const assistant = new Assistant({
 			profileId: profile._id,
 			name,
+			gender,
 			color,
 			fileName,
 		});

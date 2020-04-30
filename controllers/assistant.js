@@ -50,3 +50,15 @@ export const getAssistants = async (req, res) => {
 		res.status(500).json({ message: 'Server error' });
 	}
 };
+
+export const deleteAssistant = async (req, res) => {
+	const { id } = req.params;
+	if (!id) return res.status(409).json({ message: 'Invalid request' });
+	try {
+		await Assistant.findByIdAndDelete(id);
+		res.status(200).json({ message: 'success' });
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Server error' });
+	}
+};

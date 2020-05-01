@@ -2,8 +2,11 @@ import Assistant from '../models/assistant';
 import Profile from '../models/profile';
 
 export const createAssistant = async (req, res) => {
-	const { name, gender, color, fileName, profileId } = req.body;
-	if (!profileId || !name || !gender || !color || !fileName) return res.status(400).json({ message: 'Invalid field is provided' });
+	const { name, gender, color, fileName } = req.body;
+	const profileId = req.header('Authorization');
+	if (!profileId) return res.status(403).json({ message: 'Not authorized' });
+
+	if (!name || !gender || !color || !fileName) return res.status(400).json({ message: 'Invalid field is provided' });
 	try {
 		const profile = await Profile.findById(profileId);
 		if (!profile) return res.status(409).json({ message: 'Profile does not exist' });
@@ -25,6 +28,8 @@ export const createAssistant = async (req, res) => {
 export const updateAssistant = async (req, res) => {
 	const { id } = req.params;
 	const { name, color, fileName } = req.body;
+	const profileId = req.header('Authorization');
+	if (!profileId) return res.status(403).json({ message: 'Not authorized' });
 	if (!name || !color || !fileName) return res.status(400).json({ message: 'Invalid field is provided' });
 	if (!id) return res.status(409).json({ message: 'Invalid request' });
 	try {
@@ -38,9 +43,9 @@ export const updateAssistant = async (req, res) => {
 };
 
 export const getAssistants = async (req, res) => {
-	const { profileId } = req.params;
 	const { keyword } = req.query;
-	if (!profileId) return res.status(409).json({ message: 'Invalid request' });
+	const profileId = req.header('Authorization');
+	if (!profileId) return res.status(403).json({ message: 'Not authorized' });
 	const query = { profileId };
 	if (keyword) query.name = { $regex: keyword, $options: 'i'};
 	try {
@@ -54,6 +59,8 @@ export const getAssistants = async (req, res) => {
 
 export const deleteAssistant = async (req, res) => {
 	const { id } = req.params;
+	const profileId = req.header('Authorization');
+	if (!profileId) return res.status(403).json({ message: 'Not authorized' });
 	if (!id) return res.status(409).json({ message: 'Invalid request' });
 	try {
 		await Assistant.findByIdAndDelete(id);

@@ -3,7 +3,7 @@ import { createAssistant, updateAssistant, getAssistants, deleteAssistant } from
 
 const router = express.Router();
 
-router.get('/:profileId', getAssistants);
+router.get('/', getAssistants);
 router.post('/', createAssistant);
 router.patch('/:id', updateAssistant);
 router.delete('/:id', deleteAssistant);
